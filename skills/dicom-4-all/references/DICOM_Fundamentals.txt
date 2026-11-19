@@ -1,0 +1,433 @@
+1. DICOM FUNDAMENTALS
+- DICOM (Digital Imaging and Communications in Medicine) is the worldwide standard for medical imaging interoperability.
+- Developed from the ACR-NEMA standard.
+- There is no DICOM 4.0. The term DICOM 3.0 is historical.
+- DICOM provides interconnectivity, not guaranteed interoperability.
+- Interoperability depends on matching SOP Classes, Transfer Syntaxes, roles, workflows, and data requirements.
+- DICOM works in parallel with HL7 and healthcare integration initiatives.
+
+COMMENTS OF NOTE:
+- Detailed explanation of ACR, NEMA and DICOM workgroups.
+- WADO explained as web-based DICOM retrieval using HTTP.
+- MIME types for DICOM files defined as application/dicom.
+
+2. DICOM ARCHITECTURE
+Core concepts:
+- Information Objects (IODs)
+- Service Classes
+- SOP Classes (Service Object Pairs)
+- DIMSE Commands
+- Information Model
+
+The guide emphasizes that DICOM is heavily influenced by object-oriented design.
+
+3. INFORMATION MODEL
+The most important DICOM hierarchy:
+Patient
+  -> Study
+      -> Series
+          -> Image
+
+Additional workflow hierarchy:
+ISR -> Requested Procedure -> Scheduled Procedure Step -> Performed Procedure Step
+
+COMMENTS OF NOTE:
+- Strong explanation of Patient-Study-Series-Image hierarchy.
+- Detailed explanation of Hanging Protocols.
+- Relational retrieval vs hierarchical retrieval.
+- Importance of Accession Number linking orders, studies and reports.
+
+4. DICOM DIMENSIONS / SERVICE AREAS
+The guide describes several major dimensions:
+
+1. Object exchange
+   - Store
+   - Verification
+
+2. Information Management
+   - MWL
+   - MPPS
+   - Storage Commitment
+   - General Purpose Worklist
+
+3. Image Quality
+   - GSDF
+   - Presentation States
+
+4. Structured Reporting
+   - Measurements
+   - CAD
+   - Key Images
+
+5. Security
+   - Encryption
+   - Signatures
+   - Auditing
+
+6. Media Exchange
+   - CDs/DVDs
+   - DICOMDIR
+
+5. DICOM STANDARD PARTS
+Most important sections:
+
+Part 1  Overview
+Part 2  Conformance Statements
+Part 3  Information Object Definitions (IODs)
+Part 4  Service Classes
+Part 5  Data Structures and Encoding
+Part 6  Data Dictionary
+Part 7  Message Exchange
+Part 8  Network Communication
+Part 10 File Format
+Part 11 Media Profiles
+Part 12 Physical Media
+Part 14 GSDF
+Part 15 Security
+Part 16 Codes and Templates
+Part 17 Explanatory Information
+Part 18 WADO
+Part 19 Application Hosting
+Part 20 CDA Mapping
+Part 21 DICOM Transformation
+Part 22 Real-Time Communication
+
+COMMENTS OF NOTE:
+- Excellent breakdown of what each DICOM part is used for.
+- Explanation of DICOM file structure, DICM prefix, Group 0002 metadata and Transfer Syntax UID.
+
+6. DICOM DATA ELEMENTS
+Every attribute consists of:
+- Tag
+- VR
+- Length
+- Value
+
+Examples:
+- Patient Name (0010,0010)
+- SOP Instance UID
+- Pixel Data (7FE0,0010)
+
+Important concepts:
+- Group and Element
+- Even length requirement
+- Hexadecimal representation
+- Data Dictionary
+- Sequences (SQ)
+- Private Attributes
+
+COMMENTS OF NOTE:
+- Comprehensive explanation of Little Endian and Big Endian.
+- Discussion on private groups and vendor-specific tags.
+
+7. VALUE REPRESENTATIONS (VR)
+Critical VRs:
+- PN Person Name
+- LO Long String
+- SH Short String
+- DA Date
+- TM Time
+- UI UID
+- SQ Sequence
+- UN Unknown
+
+Important concepts:
+- Explicit VR
+- Implicit VR
+- Value Multiplicity (VM)
+- Padding rules
+
+COMMENTS OF NOTE:
+- Many real examples showing encoding formats.
+- Explanation of VM using multiple patient names.
+
+8. SOP CLASSES AND UIDS
+SOP Class = DIMSE Service + IOD
+
+Examples:
+- CT Storage
+- MR Storage
+- US Storage
+- Structured Reporting
+
+UID concepts:
+- SOP Class UID identifies object type.
+- SOP Instance UID identifies unique object.
+- Study UID, Series UID and Instance UID must be globally unique.
+
+COMMENTS OF NOTE:
+- Strong warnings regarding duplicate UIDs and PACS integrity issues.
+- Explanation of vendor UID roots.
+
+9. DICOM SERVICES
+Composite Services:
+- C-STORE
+- C-FIND
+- C-MOVE
+- C-GET
+- C-ECHO
+
+Normalized Services:
+- N-CREATE
+- N-SET
+- N-GET
+- N-ACTION
+- N-DELETE
+- N-EVENT-REPORT
+
+COMMENTS OF NOTE:
+- Outstanding practical comparison of C-GET versus C-MOVE.
+- Security and firewall implications explained.
+- Storage Commitment workflow explained using N-ACTION and N-EVENT-REPORT.
+
+10. NETWORKING
+Core concepts:
+- Application Entities (AEs)
+- AE Titles
+- Associations
+- Presentation Contexts
+- Abstract Syntax
+- Transfer Syntax
+
+Association flow:
+1. Negotiate capabilities.
+2. Exchange data.
+3. Close association.
+
+COMMENTS OF NOTE:
+- One of the strongest sections in the document.
+- Practical examples of SCU/SCP negotiation.
+- Discussion of presentation context and transfer syntax selection.
+
+11. TRANSFER SYNTAXES
+Includes:
+- Implicit VR Little Endian (mandatory)
+- Explicit VR Little Endian
+- Explicit VR Big Endian
+- JPEG
+- JPEG Lossless
+- JPEG2000
+- RLE
+- MPEG
+
+COMMENTS OF NOTE:
+- Default DICOM Transfer Syntax is Implicit VR Little Endian.
+- Compression negotiation occurs during association setup.
+
+12. MODALITY WORKLIST (MWL)
+Purpose:
+- Eliminate manual demographic entry.
+- Improve integrity.
+- Retrieve orders from RIS.
+
+Command:
+- C-FIND
+
+Information Model:
+- ISR
+- Requested Procedure
+- Scheduled Procedure Step
+
+COMMENTS OF NOTE:
+- Important mapping between HL7 orders and MWL.
+- Polling vs real-time retrieval.
+- Emphasis on Accession Number-based workflow.
+
+13. MODALITY PERFORMED PROCEDURE STEP (MPPS)
+Purpose:
+- Close workflow loop.
+- Report actual performed exam.
+- Report status.
+- Communicate image count.
+- Communicate dose.
+
+Commands:
+- N-CREATE
+- N-SET
+
+COMMENTS OF NOTE:
+- Critical for workflow automation.
+- Allows RIS and PACS synchronization.
+
+14. STORAGE COMMITMENT
+Purpose:
+- Transfer responsibility for storage.
+
+Process:
+1. C-STORE image.
+2. N-ACTION commitment request.
+3. N-EVENT-REPORT response.
+
+COMMENTS OF NOTE:
+- C-STORE success does NOT guarantee long-term storage.
+- Storage Commitment is required before deleting local copies.
+
+15. QUERY/RETRIEVE
+Commands:
+- C-FIND
+- C-MOVE
+- C-GET
+
+Information Models:
+- Patient Root
+- Study Root
+- Patient/Study Root (retired)
+
+Key concepts:
+- Hierarchical searching.
+- Unique keys.
+- Pending responses.
+- Cancel operations.
+
+COMMENTS OF NOTE:
+- Study Root is most commonly used.
+- Detailed explanation of retrieval behavior.
+
+16. STRUCTURED REPORTING (SR)
+Purpose:
+- Measurements
+- CAD
+- Key Objects
+- Cardiology reports
+- Procedure Logs
+
+Types:
+- Basic Text SR
+- Enhanced SR
+- Comprehensive SR
+
+COMMENTS OF NOTE:
+- Strong discussion on SR templates.
+- Detailed SR tree structure and relationships.
+- Key Object Selection explained.
+
+17. IMAGE QUALITY
+Pipeline:
+Pixel Data
+ -> Modality LUT
+ -> VOI LUT (WW/WL)
+ -> Presentation LUT
+ -> Display
+
+Important concepts:
+- Bits Allocated
+- Bits Stored
+- High Bit
+- Photometric Interpretation
+- MONOCHROME1
+- MONOCHROME2
+
+COMMENTS OF NOTE:
+- Excellent explanation of CT pixel scaling and Hounsfield Units.
+- Detailed discussion of VOI and modality LUTs.
+
+18. PRESENTATION STATES
+Stores:
+- Annotations
+- Window/Level
+- Zoom
+- Rotation
+- Shutters
+- Overlays
+
+Benefits:
+- Preserve presentation without modifying source image.
+
+COMMENTS OF NOTE:
+- PR series stored separately.
+- Essential for multi-vendor display consistency.
+
+19. GSDF
+Grayscale Standard Display Function.
+
+Purpose:
+- Consistent display across monitors.
+- Consistent printing.
+- Based on human visual perception.
+
+COMMENTS OF NOTE:
+- Extensive calibration discussion.
+- References Barco style medical display calibration.
+- ICC Profiles discussed for color consistency.
+
+20. OVERLAYS
+Methods:
+- Burned into image.
+- Stored in pixels.
+- Group 6000 overlays.
+- Presentation State.
+
+Preferred modern approach:
+- Presentation States.
+
+COMMENTS OF NOTE:
+- Detailed historical evolution of overlays.
+
+21. COMPRESSION
+Algorithms:
+- RLE
+- JPEG
+- JPEG Lossless
+- JPEG2000/Wavelet
+- MPEG
+
+Key lessons:
+- Lossless typically 2-3:1.
+- Lossy may reach 10-20:1.
+- JPEG2000 often preferred.
+- MPEG suitable for cine loops.
+
+COMMENTS OF NOTE:
+- Excellent explanation of wavelet advantages.
+- Discussion of compression artifacts.
+
+22. MEDIA EXCHANGE
+Core pieces:
+- Part 10 files
+- DICOMDIR
+- Application Profiles
+- CD/DVD exchange
+
+COMMENTS OF NOTE:
+- DICOMDIR acts as index.
+- Group 0002 file meta information extremely important.
+- IHE PDI profile improves interoperability.
+
+23. CONFORMANCE STATEMENTS
+Most important integration document.
+
+Compare:
+1. Application descriptions
+2. SOP Classes
+3. SCU/SCP roles
+4. Associations
+5. Presentation Contexts
+6. Communication profiles
+7. Attribute requirements
+
+COMMENTS OF NOTE:
+- Strong emphasis on GAP analysis before installation.
+
+24. TROUBLESHOOTING
+Methods:
+- Verification testing
+- Validation testing
+- DICOM Echo
+- Ping
+- Active test tools
+- Sniffers
+- DICOM dumps
+
+Tools mentioned:
+- DVTk
+- DCMTK
+- dcm4chee
+- Wireshark
+- TCPDump
+
+
+
+
+
+
+

@@ -1,0 +1,281 @@
+DICOM NETWORKING DEEP DIVE
+=========================
+
+1. ASSOCIATIONS
+
+Association Lifecycle:
+1. TCP Connection
+2. A-ASSOCIATE-RQ
+3. A-ASSOCIATE-AC
+4. DIMSE Messages
+5. A-RELEASE-RQ
+6. A-RELEASE-RP
+
+Failure Paths:
+- A-ASSOCIATE-RJ
+- A-ABORT
+
+ASSOCIATION COMPONENTS
+- Calling AE Title
+- Called AE Title
+- Presentation Contexts
+- Abstract Syntaxes
+- Transfer Syntaxes
+- User Information
+
+--------------------------------
+C-ECHO (Verification)
+--------------------------------
+Purpose:
+- Connectivity testing
+
+Flow:
+SCU -> C-ECHO-RQ
+SCP -> C-ECHO-RSP
+
+Success:
+Status 0000
+
+Common Failures:
+- Wrong AE Title
+- Wrong Port
+- Firewall
+- SCP not listening
+
+--------------------------------
+C-STORE (Storage)
+--------------------------------
+Purpose:
+- Transfer DICOM Objects
+
+Flow:
+SCU -> C-STORE-RQ + Dataset
+SCP -> C-STORE-RSP
+
+Common Storage Objects:
+- CT
+- MR
+- CR
+- DX
+- US
+- SR
+- PDF
+
+Common Failure Causes:
+- Unsupported SOP Class
+- Unsupported Transfer Syntax
+- Duplicate SOP UID
+- Disk Full
+
+--------------------------------
+C-FIND (Query)
+--------------------------------
+Purpose:
+- Search for data
+
+Models:
+- Patient Root
+- Study Root
+
+Levels:
+- Patient
+- Study
+- Series
+- Image
+
+Common Query Keys:
+- Patient ID
+- Accession Number
+- Study Date
+- Modality
+
+Responses:
+Pending (FF00)
+Success (0000)
+
+--------------------------------
+C-MOVE (Retrieve)
+--------------------------------
+Purpose:
+- Retrieve to third-party destination
+
+Requires:
+- Destination AE known to SCP
+
+Flow:
+1. C-MOVE Request
+2. SCP locates Instances
+3. SCP performs C-STORE
+4. SCP sends status updates
+
+Common Failure:
+Destination AE missing.
+
+--------------------------------
+C-GET (Retrieve)
+--------------------------------
+Purpose:
+- Retrieve through same association
+
+Advantages:
+- Firewall friendly
+- No third-party destination
+
+Disadvantages:
+- Less commonly implemented
+
+--------------------------------
+N-CREATE
+--------------------------------
+Purpose:
+- Create managed objects
+
+Common Use:
+- MPPS creation
+
+--------------------------------
+N-SET
+--------------------------------
+Purpose:
+- Update managed object
+
+Common Use:
+- MPPS status updates
+
+Status Examples:
+IN PROGRESS
+COMPLETED
+DISCONTINUED
+
+--------------------------------
+N-GET
+--------------------------------
+Purpose:
+- Retrieve managed object attributes
+
+Common Use:
+- Printer Management
+- Managed workflow objects
+
+--------------------------------
+N-ACTION
+--------------------------------
+Purpose:
+- Execute action on object
+
+Most Important Use:
+Storage Commitment Request
+
+Workflow:
+SCU -> N-ACTION
+SCP processes
+
+--------------------------------
+N-EVENT-REPORT
+--------------------------------
+Purpose:
+- Event notification
+
+Most Important Use:
+Storage Commitment Response
+
+Workflow:
+1. N-ACTION Request
+2. Archive validation
+3. N-EVENT-REPORT returned
+
+--------------------------------
+N-DELETE
+--------------------------------
+Purpose:
+- Remove managed object
+
+Less frequently used.
+
+--------------------------------
+STORAGE COMMITMENT
+--------------------------------
+Process:
+1. C-STORE images
+2. N-ACTION request
+3. Archive verifies storage
+4. N-EVENT-REPORT response
+
+Key Principle:
+C-STORE success is NOT storage commitment.
+
+--------------------------------
+MWL
+--------------------------------
+DIMSE Used:
+C-FIND
+
+Purpose:
+- Retrieve orders
+- Populate modality demographics
+
+Benefits:
+- Eliminates manual entry
+- Reduces patient mismatch
+
+--------------------------------
+MPPS
+--------------------------------
+DIMSE Used:
+N-CREATE
+N-SET
+
+Purpose:
+- Workflow status updates
+- Procedure completion tracking
+
+--------------------------------
+PRESENTATION CONTEXTS
+--------------------------------
+Contains:
+- Abstract Syntax
+- Transfer Syntax
+
+Association succeeds only when both match.
+
+--------------------------------
+ABSTRACT SYNTAX
+--------------------------------
+Represents:
+- SOP Class
+
+Examples:
+- CT Storage
+- MR Storage
+- C-FIND Study Root
+
+--------------------------------
+TRANSFER SYNTAX
+--------------------------------
+Represents:
+- Encoding
+- Compression
+
+Examples:
+- Implicit VR LE
+- Explicit VR LE
+- JPEG2000
+
+--------------------------------
+TOP 15 DICOM NETWORKING FAILURE ROOT CAUSES
+--------------------------------
+1. Wrong AE Title
+2. Firewall
+3. Port mismatch
+4. Unsupported SOP Class
+5. Unsupported Transfer Syntax
+6. Duplicate UID
+7. SCP not running
+8. TLS mismatch
+9. Storage full
+10. Association rejection
+11. MWL mismatch
+12. MPPS mismatch
+13. Unsupported compression
+14. Invalid patient identifiers
+15. Vendor-specific limitations

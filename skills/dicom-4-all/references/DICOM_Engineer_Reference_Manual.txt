@@ -1,0 +1,115 @@
+DICOM ENGINEER REFERENCE MANUAL
+=================================
+
+PURPOSE
+This reference manual is intended for PACS Administrators, DICOM Engineers, Enterprise Imaging Analysts, Vendor Integration Specialists, VNA Engineers, and Software Developers.
+
+CORE DICOM HIERARCHY
+Patient
+  -> Study
+      -> Series
+          -> SOP Instance (Image/Object)
+
+KEY IDENTIFIERS
+- Patient ID (0010,0020)
+- Study Instance UID (0020,000D)
+- Series Instance UID (0020,000E)
+- SOP Instance UID (0008,0018)
+
+DICOM NETWORK FUNDAMENTALS
+- AE Title
+- IP Address
+- Port
+- Association
+- Presentation Context
+- Abstract Syntax
+- Transfer Syntax
+- SCU/SCP Roles
+
+COMMON SOP CLASSES
+Verification
+- C-ECHO
+
+Storage
+- CT Storage
+- MR Storage
+- CR Storage
+- Ultrasound Storage
+- Secondary Capture Storage
+- Structured Report Storage
+
+Query/Retrieve
+- C-FIND
+- C-MOVE
+- C-GET
+
+Workflow
+- Modality Worklist (MWL)
+- MPPS
+- Storage Commitment
+
+IMPORTANT TAGS
+Patient
+- Patient Name (0010,0010)
+- Patient ID (0010,0020)
+- Birth Date (0010,0030)
+
+Study
+- Study UID (0020,000D)
+- Accession Number (0008,0050)
+- Study Date (0008,0020)
+
+Series
+- Series UID (0020,000E)
+- Modality (0008,0060)
+
+Image
+- SOP Instance UID (0008,0018)
+- Rows (0028,0010)
+- Columns (0028,0011)
+- Pixel Data (7FE0,0010)
+
+TRANSFER SYNTAXES
+Mandatory:
+- 1.2.840.10008.1.2 Implicit VR Little Endian
+
+Common:
+- Explicit VR Little Endian
+- JPEG Lossless
+- JPEG-LS
+- JPEG2000 Lossless
+- JPEG2000 Lossy
+
+TROUBLESHOOTING CHECKLIST
+1. Verify Ping
+2. Verify C-ECHO
+3. Confirm AE Title
+4. Confirm Port
+5. Check Firewall
+6. Check Supported SOP Classes
+7. Check Transfer Syntax Support
+8. Check UIDs
+9. Check DICOM Logs
+10. Validate Objects with DVTk/DCMTK
+
+CONFORMANCE REVIEW PROCESS
+1. Identify SOP Classes.
+2. Identify SCU/SCP roles.
+3. Review Transfer Syntaxes.
+4. Review Query/Retrieve support.
+5. Review MWL support.
+6. Review MPPS support.
+7. Review Storage Commitment support.
+8. Validate interoperability.
+
+BEST PRACTICES
+- Never reuse UIDs.
+- Always use MWL.
+- Avoid manual demographic entry.
+- Use Storage Commitment.
+- Read Conformance Statements.
+- Validate every interface.
+- Track accession numbers.
+- Monitor rejected associations.
+- Maintain DICOM test tools.
+- Keep packet captures for investigations.
