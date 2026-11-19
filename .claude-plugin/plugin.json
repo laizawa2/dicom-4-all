@@ -1,0 +1,23 @@
+{
+  "name": "dicom-4-all",
+  "version": "0.3.0",
+  "description": "DICOM_4_ALL: AI-powered technical assistance for DICOM standards, medical imaging interoperability, PACS, VNA, DICOM networking, DICOMweb, HL7, FHIR, and IHE. Users must remove all PHI and identifying information before submitting any content.",
+  "author": {
+    "name": "Luiz Aizawa"
+  },
+  "homepage": "https://www.everyexpert.com/luizaizawa",
+  "keywords": [
+    "dicom",
+    "pacs",
+    "vna",
+    "dicomweb",
+    "hl7",
+    "fhir",
+    "ihe",
+    "healthcare-imaging",
+    "interoperability"
+  ],
+  "icon": "./assets/dicom-4-all-icon.png",
+  "license": "SEE LICENSE IN LICENSE",
+  "repository": "https://github.com/laizawa2/dicom-4-all"
+}
