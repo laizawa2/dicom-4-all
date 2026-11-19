@@ -1,0 +1,14 @@
+{
+  "name": "dicom-4-all",
+  "description": "DICOM_4_ALL: a DICOM troubleshooting and interoperability assistant for healthcare imaging professionals.",
+  "owner": {
+    "name": "Luiz Aizawa"
+  },
+  "plugins": [
+    {
+      "name": "dicom-4-all",
+      "source": "./",
+      "description": "DICOM Troubleshooting Expert: DICOM standards, DIMSE, DICOMweb, PACS/VNA integration, logs, conformance statements, HL7, FHIR, IHE. Users must remove all PHI before submitting content."
+    }
+  ]
+}
